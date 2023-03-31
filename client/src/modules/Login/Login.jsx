@@ -1,5 +1,7 @@
 import React from 'react'
 import './login.css'
+import { BiUser } from 'react-icons/bi'
+import { BsFillLockFill } from 'react-icons/bs'
 
 const Login = () => {
   return (
@@ -9,7 +11,7 @@ const Login = () => {
                 <h1>SIMPLICIT</h1>
                 <form action="">
                     <div className="input">
-                        <label htmlFor=""></label>
+                        <BiUser id='icon'/>
                         <input 
                         type="text" 
                         placeholder='USERNAME'
@@ -19,7 +21,7 @@ const Login = () => {
                     </div>
     
                     <div className="input">
-                        
+                        <BsFillLockFill id='icon'/>
                         <input 
                         type="password" 
                         placeholder='PASSWORD'
@@ -28,7 +30,9 @@ const Login = () => {
                         />
                     </div>
 
-                    <button type="submit"></button>
+                    <button type="submit">
+                        LOGIN
+                    </button>
                     <a href="/">Forgot Password?</a>
                 </form>
             </div>
