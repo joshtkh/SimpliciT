@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -11,6 +12,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+// Set up logging middleware for debugging help
+app.use(morgan('dev'));
 
 // setup CORS
 app.use(function(req, res, next) {

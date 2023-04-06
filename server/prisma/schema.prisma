@@ -1,41 +1,42 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
 datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+    provider = "sqlserver"
+    url      = env("DATABASE_URL")
 }
 
 model Employee {
-  EmployeeID Int        @id(map: "PK__Employee__7AD04FF173C0F1BE")
-  FirstName  String     @db.NChar(20)
-  MiddleName String?    @db.NChar(20)
-  LastName   String     @db.NChar(20)
-  Permission Int
-  TimeCard   TimeCard[]
+    EmployeeID Int        @id(map: "PK__Employee__7AD04FF173C0F1BE")
+    FirstName  String     @db.NChar(20)
+    MiddleName String?    @db.NChar(20)
+    LastName   String     @db.NChar(20)
+    Permission Int
+    TimeCard   TimeCard[]
 }
 
 model PayPeriod {
-  PayPeriodID   Int        @id(map: "PK__PayPerio__66B8DF9EEF2DEB5E")
-  PayPeriodWeek Int
-  PayPeriodYear Int
-  TimeCard      TimeCard[]
+    PayPeriodID   Int        @id(map: "PK__PayPerio__66B8DF9EEF2DEB5E")
+    PayPeriodWeek Int
+    PayPeriodYear Int
+    TimeCard      TimeCard[]
 }
 
 model TimeCard {
-  TimeCardID  Int       @id(map: "PK__TimeCard__6616E8EE27A900C1")
-  PayPeriodID Int
-  EmployeeID  Int
-  Employee    Employee  @relation(fields: [EmployeeID], references: [EmployeeID], onUpdate: NoAction, map: "FK_TimeCard_EmployeeID")
-  PayPeriod   PayPeriod @relation(fields: [PayPeriodID], references: [PayPeriodID], onUpdate: NoAction, map: "FK_TimeCard_PayPeriodID")
-  Timelog     Timelog[] @ignore
+    TimeCardID  Int       @id(map: "PK__TimeCard__6616E8EE27A900C1")
+    PayPeriodID Int
+    EmployeeID  Int
+    Employee    Employee  @relation(fields: [EmployeeID], references: [EmployeeID], onUpdate: NoAction, map: "FK_TimeCard_EmployeeID")
+    PayPeriod   PayPeriod @relation(fields: [PayPeriodID], references: [PayPeriodID], onUpdate: NoAction, map: "FK_TimeCard_PayPeriodID")
+    Timelog     Timelog[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model Timelog {
-  TimeCardID Int
-  Date       DateTime @db.Date
-  Start      DateTime @db.Time
-  End        DateTime @db.Time
-  Hours      Int
-  TimeCard   TimeCard @relation(fields: [TimeCardID], references: [TimeCardID], onUpdate: NoAction, map: "FK_TimeCard_TimeCardID")
-
-  @@ignore
+    TimeCardID Int      @id
+    Date       DateTime @db.Date
+    Start      DateTime @db.Time
+    End        DateTime @db.Time
+    Hours      Int
+    TimeCard   TimeCard @relation(fields: [TimeCardID], references: [TimeCardID], onUpdate: NoAction, map: "FK_TimeCard_TimeCardID")
 }
