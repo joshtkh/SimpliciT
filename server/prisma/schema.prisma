@@ -9,6 +9,7 @@ datasource db {
 
 model Employee {
     EmployeeID Int        @id(map: "PK__Employee__7AD04FF173C0F1BE")
+    Password   String
     FirstName  String     @db.NChar(20)
     MiddleName String?    @db.NChar(20)
     LastName   String     @db.NChar(20)
