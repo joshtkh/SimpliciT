@@ -3,15 +3,25 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const path = require('path');
+const loginRoutes = require('../routes/login.routes');
 
 const app = express();
 
+//Serve frontend files from backend
+app.use(express.static(path.join(__dirname, '..', '..','client', 'build')));
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,'..','..','client','build','index.html'))
+})
+app.use('/api/login', loginRoutes);
+
 // Use the 'body-parser' middleware functions
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 
 // Set up logging middleware for debugging help
 app.use(morgan('dev'));

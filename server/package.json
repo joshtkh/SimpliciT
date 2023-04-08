@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "localtest": "cd .. && cd client && npm run build && cd .. && cd server && nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,9 +16,11 @@
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
+    "path": "^0.12.7",
     "prisma": "^4.12.0"
   },
   "devDependencies": {
