@@ -34,14 +34,16 @@ const listEmployees = function(req, res, next) {
 // with that id, and stores it in req.employee, and passes this information
 // to the next function in line.
 const getEmployeeFromId = async function(req, res, next, id) {
+    const employeeId = parseInt(id);
+    console.log(employeeId);
     const employee = await prisma.employee.findUnique({
         where: {
-            id: id,
+            id: employeeId,
         },
     })
     // If employee is null, no employee with the given ID was found.
     if(employee === null) {
-        return res.status(500).json({error: `No Employee with id ${id} was found.`});
+        return res.status(500).json({error: `No Employee with id ${employeeId} was found.`});
     }
     // Otherwise, an employee was found. Attach the employee to req.employee.
     req.employee = employee;
