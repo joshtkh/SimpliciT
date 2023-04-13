@@ -1,8 +1,6 @@
 import React from 'react'
 import './dashboard.css'
-import Hours from '../components/Hours'
-import Staff from '../components/Staff'
-import Settings from '../components/Settings'
+import {Hours, Staff, Settings} from '../components'
 import { useState } from 'react'
 
 const Dashboard = () => {
