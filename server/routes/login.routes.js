@@ -21,6 +21,7 @@ router.post('/', async (req, res) => {
       EmployeeID: employeeId,
     },
     select:{
+        EmployeeID: true,
         FirstName: true,
         LastName: true,
         Password: true
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
   }
 
   // Create and sign a JWT token
-  const token = jwt.sign({ id: user.EmployeeID }, jwtSecret, {
+  const token = jwt.sign({ id: user.EmployeeID, name: user.FirstName }, jwtSecret, {
     expiresIn: '1d'
   });
   

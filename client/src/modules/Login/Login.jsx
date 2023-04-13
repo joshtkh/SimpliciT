@@ -3,16 +3,18 @@ import axios from 'axios'; // Import axios library
 import './login.css';
 import { BiUser } from 'react-icons/bi';
 import { BsFillLockFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     const isManager = username.startsWith('9');
     const employeeId = parseInt(username);
-    console.log(employeeId);
+    // console.log(employeeId);
     try {
       const response = await axios.post(`/api/login`, {
         username,
@@ -23,6 +25,9 @@ const Login = () => {
         const { token } = response.data;
         console.log("Success!");
         localStorage.setItem('token', token);
+        props.setIsAuthenticated(true);
+        navigate('/dashboard');
+        
       }
     } catch (error) {
         console.log("this");

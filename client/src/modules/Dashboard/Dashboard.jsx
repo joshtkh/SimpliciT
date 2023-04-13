@@ -5,9 +5,17 @@ import Staff from '../components/Staff'
 import Settings from '../components/Settings'
 import { useState } from 'react'
 
-const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('')
+const Dashboard = (props) => {
+  const [activeTab, setActiveTab] = useState('');
+  const token = localStorage.getItem('token');
+  const [header64, payload64, signature] = token.split('.');
+  const payload = JSON.parse(atob(payload64));
 
+  const handleSignOut=()=>{
+    localStorage.removeItem('token');
+    props.setIsAuthenticated(false);
+    console.log('Logged out!');
+  }
   return (
       <div className="dash_main">
         <div className="nav">
@@ -17,20 +25,20 @@ const Dashboard = () => {
           <div className="tab_links">
             <a href="#" onClick={() => {setActiveTab('hours')}}>HOURS MANAGEMENT</a>
             <a href="#" onClick={() => {setActiveTab('staff')}}>STAFF MANAGEMENT</a>
-            <a href="#"onClick={() => {setActiveTab('settings')}}>ACCOUNT SETTINGS</a>
+            <a href="#" onClick={() => {setActiveTab('settings')}}>ACCOUNT SETTINGS</a>
           </div>
           <div className="sign_out">
-            <button>SIGN OUT</button>
+            <button onClick={handleSignOut}>SIGN OUT</button>
           </div>
         </div>
         <div className="content">
         {activeTab === 'hours' ? <Hours /> 
         : activeTab === 'staff' ? <Staff /> 
         : activeTab === 'settings' ? <Settings />
-        : "Nothing Selected"}
+        : `Welcome, ${payload.name}!\n\nEmployee ID: ${payload.id}`}
         </div>
       </div>
   )
 }
 
-export default Dashboard
+export default Dashboard;
