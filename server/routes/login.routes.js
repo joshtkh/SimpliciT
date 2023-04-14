@@ -1,22 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const {PrismaClient} = require('@prisma/client');
-const prisma =new PrismaClient();
-const config = require('../config/config');
+const prisma = require('../config/db');
+require('dotenv').config();
 
-const jwtSecret = config.jwtSecret;
-// console.log(jwtSecret);
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
+const jwtSecret = process.env.JWT_SECRET;
+console.log(jwtSecret);
 
 router.post('/', async (req, res) => {
-  const { username, password, isManager } = req.body;
-  const employeeId = parseInt(username);
+  console.log("REQ BODY:", req.body);
+  const { employeeId, password, isManager } = req.body;
+
   // Check if user exists
   const user = await prisma.employee.findUnique({
-    
     where: {
       EmployeeID: employeeId,
     },
@@ -42,9 +38,8 @@ router.post('/', async (req, res) => {
     expiresIn: '1d'
   });
   
-
   // Return token to client
-  res.json({ token });
+  return res.status(200).json({ token });
   
 });
 
