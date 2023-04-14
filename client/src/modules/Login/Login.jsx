@@ -10,29 +10,30 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
+  const handleLogin = (event) => {
     event.preventDefault();
     const isManager = username.startsWith('9');
     const employeeId = parseInt(username);
     // console.log(employeeId);
-    try {
-      const response = await axios.post(`/api/login`, {
-        username,
-        password,
-        isManager,
-      });
-      if (response.status === 200) {
-        const { token } = response.data;
+    const data = {
+      employeeId: employeeId,
+      password: password,
+      isManager: isManager
+    }
+    console.log("DATA TO SEND:", data);
+    const loginURL = "http://localhost:3000/api/login";
+
+    axios.post(loginURL, data)
+    .then(result => {
+        const { token } = result.data;
         console.log("Success!");
         localStorage.setItem('token', token);
         props.setIsAuthenticated(true);
         navigate('/dashboard');
-        
-      }
-    } catch (error) {
-        console.log("this");
-      console.log(error);
-    }
+    })
+    .catch(error => {
+      console.log("Axios POST Error: Login Error.", error);
+    })
   };
 
   const handleUsernameChange = (event) => {
@@ -56,7 +57,6 @@ const Login = (props) => {
                 placeholder="USERNAME"
                 name="username"
                 id="username"
-                value={username}
                 onChange={handleUsernameChange}
                 required
               />
@@ -69,7 +69,6 @@ const Login = (props) => {
                 placeholder="PASSWORD"
                 name="password"
                 id="password"
-                value={password}
                 onChange={handlePasswordChange}
                 required
               />

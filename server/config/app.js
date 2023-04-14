@@ -7,17 +7,19 @@ const path = require('path');
 const loginRoutes = require('../routes/login.routes');
 
 const app = express();
+require('dotenv').config();
+
+//console.log(process.env.JWT_SECRET);
 
 //Serve frontend files from backend
 app.use(express.static(path.join(__dirname, '..', '..','client', 'build')));
 app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'..','..','client','build','index.html'))
 })
-app.use('/api/login', loginRoutes);
 
 // Use the 'body-parser' middleware functions
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -36,6 +38,9 @@ app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }));
+
+// Routing needs to be the very last thing loaded.
+app.use('/api/login', loginRoutes);
 
 // Export the app
 module.exports = app;
