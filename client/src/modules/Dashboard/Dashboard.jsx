@@ -1,6 +1,7 @@
 import React from 'react'
 import './dashboard.css'
 import {Hours, Staff, Settings} from '../components'
+import Search from '../components/Search/Search'
 import { useState } from 'react'
 
 const Dashboard = (props) => {
@@ -14,6 +15,9 @@ const Dashboard = (props) => {
     props.setIsAuthenticated(false);
     console.log('Logged out!');
   }
+
+  const employeeId = payload.id.toString();
+  const isManager = employeeId.startsWith('9');
   return (
       <div className="dash_main">
         <div className="nav">
@@ -30,10 +34,13 @@ const Dashboard = (props) => {
           </div>
         </div>
         <div className="content">
-        {activeTab === 'hours' ? <Hours /> 
+        {isManager ?(<Search/>)
+        :activeTab === 'hours' ? <Hours /> 
         : activeTab === 'staff' ? <Staff /> 
         : activeTab === 'settings' ? <Settings />
         : `Welcome, ${payload.name}!\n\nEmployee ID: ${payload.id}`}
+
+
         </div>
       </div>
   )

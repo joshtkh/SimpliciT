@@ -39,7 +39,7 @@ const getEmployeeFromId = async function(req, res, next, id) {
     console.log(employeeId);
     const employee = await prisma.employee.findUnique({
         where: {
-            id: employeeId,
+            EmployeeID: employeeId,
         },
     })
     // If employee is null, no employee with the given ID was found.
