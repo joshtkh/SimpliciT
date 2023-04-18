@@ -3,17 +3,25 @@ const prisma = require("../config/db");
 // CREATE Shift
 const createShift = async function(req, res, next) {
     // Grab the parameters from req
-    const { date, startTime, endTime, employeeId } = req.body;
+    const { employeeId, date, shiftStartTime, shiftEndTime  } = req.body;
     console.log("req.body data: ", req.body);
+    
+    console.log("employeeId: ", employeeId);
+    console.log("date: ", date);
+    console.log("shiftStartTime: ", shiftStartTime);
+    console.log("shiftEndTime: ", shiftEndTime);
+
+    const [year, month, day]=date.split("-");
     try {
         const newShift = await prisma.shift.create({
             data: {
-                Date: date,
-                Start: startTime,
-                End: endTime,
+                Date: new Date(year, month - 1, day),
+                Start: new Date(year, month - 1, day, shiftStartTime.split(":")[0], shiftStartTime.split(":")[1]),
+                End: new Date(year, month - 1, day, shiftEndTime.split(":")[0], shiftEndTime.split(":")[1]),
+                
                 Employee: {
                     connect: {
-                        id: employeeId
+                        EmployeeID: employeeId
                     }
                 }
             },
@@ -33,6 +41,9 @@ const createShift = async function(req, res, next) {
 const getShift = function(req, res) {
     // shift is stored in req.shift from the middleware function getShiftFromID.
     return res.status(200).json(req.shift);
+}
+const getShiftEmp = function(req,res){
+    return res.status(200).json(req.hours);
 }
 
 // DELETE shift
@@ -71,9 +82,28 @@ const getShiftFromId = async function(req, res, next, id) {
     }
 }
 
+const getShiftFromEmployeeId = async function(req, res, next, empId){
+    try{
+        const employeeId = parseInt(empId);
+        const hours = await prisma.shift.findMany({
+            where: {
+                EmployeeID: employeeId
+            }
+        });
+        req.hours = hours;
+        console.log(req.hours);
+        return next();
+    } catch (err) {
+        console.log(err);
+        return res.status(404);
+    }
+}
+
 module.exports = {
     createShift,
     getShift,
+    getShiftEmp,
     deleteShift,
-    getShiftFromId
+    getShiftFromId,
+    getShiftFromEmployeeId
 }
