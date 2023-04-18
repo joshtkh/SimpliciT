@@ -19,7 +19,7 @@ model Employee {
 }
 
 model Shift {
-  ShiftID    Int      @id
+  ShiftID    Int      @id @default(autoincrement())
   Date       DateTime @db.Date
   Start      DateTime @db.Time
   End        DateTime @db.Time

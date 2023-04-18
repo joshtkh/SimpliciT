@@ -5,10 +5,9 @@ const router = require('express').Router();
 router.param('id', employeeController.getEmployeeFromId);
 
 // Set up the Employee routes
-router.get('/api/employee/list', employeeController.listEmployees);
-router.get('/api/employee/:id', employeeController.getEmployee);
-router.post('/api/employee/create', employeeController.createEmployee);
-
+router.get('/list', employeeController.listEmployees);
+router.get('/:id', employeeController.getEmployee);
+router.post('/create', employeeController.createEmployee);
 
 router.post('/', async (req, res) =>{
     const {username, password} = req.body;
