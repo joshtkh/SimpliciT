@@ -5,7 +5,8 @@ const prisma = require("../config/db");
 // This function will create a new employee using the data from req.body,
 // and it will save the new employee into the database.
 const createEmployee = function(req, res, next) {
-
+    // First check if an employee with the given id already exists
+    
 };
 
 // READ Employee Handler
