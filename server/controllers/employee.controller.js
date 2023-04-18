@@ -6,7 +6,7 @@ const prisma = require("../config/db");
 // and it will save the new employee into the database.
 const createEmployee = function(req, res, next) {
     // First check if an employee with the given id already exists
-    
+    return res.status(500);
 };
 
 // READ Employee Handler
@@ -56,5 +56,6 @@ const getEmployeeFromId = async function(req, res, next, id) {
 module.exports = {
     getEmployee,
     listEmployees,
-    getEmployeeFromId
+    getEmployeeFromId,
+    createEmployee
 }

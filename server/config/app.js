@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const loginRoutes = require('../routes/login.routes');
+const employeeRoutes = require('../routes/employee.routes');
+const shiftRoutes = require('../routes/shift.routes');
 
 const app = express();
 require('dotenv').config();
@@ -41,6 +43,8 @@ app.use(cors({
 
 // Routing needs to be the very last thing loaded.
 app.use('/api/login', loginRoutes);
+app.use('/api/employee', employeeRoutes);
+app.use('/api/shift', shiftRoutes);
 
 // Export the app
 module.exports = app;
